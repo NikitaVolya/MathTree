@@ -1,4 +1,4 @@
-from MathTypes import Value, VoidValue, BaseOperation, NodeState
+from MathTypes import Value, NodeType
 from abc import ABC, abstractmethod
 from MathNode import Node
 
@@ -40,7 +40,14 @@ class BasePrintStrategy(PrintStrategy):
 
 class PriorityPrintStrategy(PrintStrategy):
     def do(self, node: Node):
-        BasePrintStrategy().do(node)
+        leftStrategy = PrintContext.getStrategy(node.childes[0])
+        leftStrategy.do(node.childes[0])
+
+        print(node.value.symbl, end='')
+
+        rightStrategy = PrintContext.getStrategy(node.childes[1])
+        if rightStrategy:
+            rightStrategy.do(node.childes[1])
 
 
 class PrintContext:
@@ -51,11 +58,11 @@ class PrintContext:
     def getStrategy(node) -> PrintStrategy:
         if type(node) is Value:
             return ValuePrintStrategy()
-        if node.value.state == NodeState.SINGLE:
+        if node.value.state == NodeType.SINGLE:
             return SinglePrintStrategy()
-        if node.value.state == NodeState.PRIORITY:
+        if node.value.state == NodeType.PRIORITY:
             return PriorityPrintStrategy()
-        if node.value.state == NodeState.BASE:
+        if node.value.state == NodeType.BASE:
             return BasePrintStrategy()
 
     def do_strategy(self, node: Node):

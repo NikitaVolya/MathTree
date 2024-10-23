@@ -1,13 +1,8 @@
-from MathCompound import MathCompound
-from MathTypes import Value
+from MathEval import MathEval
 
 
 def main():
-    a = MathCompound()
-    a.add('-', Value(10))
-    a.add('+', Value(2))
-
-    a.print()
+    print(MathEval.eval("40 * (0.5  + (  3 - [-5] * 2 ) - 2 )"))
 
 
 if __name__ == '__main__':

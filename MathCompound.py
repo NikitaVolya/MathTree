@@ -1,12 +1,13 @@
-from MathTypes import VoidValue, OperationsList, NodeState, Value
+from MathTypes import OperationsList, NodeType, Value
 from addStrategy import AddContext, SingleStrategy, PriorityStrategy, BaseStrategy
-from printStrategy import PrintContext, SinglePrintStrategy, PriorityPrintStrategy, BasePrintStrategy
+from printStrategy import PrintContext
+from CalculationsStrategy import CalculationsContext
 
 
 class MathCompound:
 
     def __init__(self):
-        self.root = VoidValue
+        self.root = Value(0)
 
     def add(self, operator_symbl: str, *args):
 
@@ -15,14 +16,20 @@ class MathCompound:
             return
 
         context = None
-        if operator.state == NodeState.SINGLE:
+        if operator.state == NodeType.SINGLE:
             context = AddContext(SingleStrategy())
-        elif operator.state == NodeState.PRIORITY:
+        elif operator.state == NodeType.PRIORITY:
             context = AddContext(PriorityStrategy())
-        elif operator.state == NodeState.BASE:
+        elif operator.state == NodeType.BASE:
             context = AddContext(BaseStrategy())
 
         self.root = context.do_strategy(self.root, operator, *args)
+        return self
+
+    def calculations(self):
+        if type(self.root) is Value:
+            return self.root.value
+        return CalculationsContext.do_auto_strategy(self.root)
 
     def get_node(self):
         return self.root.clone()
@@ -34,3 +41,4 @@ class MathCompound:
 
         strategy = PrintContext.getStrategy(self.root)
         strategy.do(self.root)
+        print()
