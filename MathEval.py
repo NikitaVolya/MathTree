@@ -1,5 +1,5 @@
-from Concstructions import Stack
 from MathCompound import MathCompound, Value
+from MathTypes import OperationsList
 
 
 class MathEval:
@@ -16,7 +16,7 @@ class MathEval:
         return rep
 
     @staticmethod
-    def getNumer(line: str) -> str:
+    def __getNumber(line: str) -> str:
         rep = ""
         i = 0
         if line[0] == '[':
@@ -33,16 +33,39 @@ class MathEval:
         return rep
 
     @staticmethod
-    def eval_part(line: str) -> float:
-        print(line)
-        compound = MathCompound()
-        number = MathEval.getNumer(line)
-        i = len(number)
-        compound.add('+', Value(float(number)))
+    def __getOperator(line: str) -> str | None:
+        i: int = 0
+        operation_name: str
         while i < len(line):
-            operation = line[i]
+            if line[i] == '(' or \
+                    line[i] == '.' or \
+                    line[i] == '[' or \
+                    ('0' <= line[i] <= '9'):
+                break
             i += 1
-            number = MathEval.getNumer(line[i:])
+        if i == len(line):
+            operation_name = line
+        else:
+            operation_name = line[:i]
+
+        if operation_name == "":
+            return None
+        if not OperationsList.get(operation_name):
+            raise f"Error: __getOperator : operation \"{operation_name}\" not found"
+        return operation_name
+
+    @staticmethod
+    def __eval_part(line: str) -> float:
+        compound = MathCompound()
+
+        i: int = 0
+        while i < len(line):
+            operation = MathEval.__getOperator(line[i:])
+            if operation:
+                i += len(operation)
+            else:
+                operation = '+'
+            number = MathEval.__getNumber(line[i:])
             if line[i] == '[':
                 i += 2
             i += len(number)
@@ -50,20 +73,34 @@ class MathEval:
         return compound.calculations()
 
     @staticmethod
-    def eval(line: str) -> float:
-        line = MathEval.__delete_spaces(line)
+    def __eval_brackets(line: str) -> (float, int):
+        i = 1
+        brackets_count = 1
+        while brackets_count != 0 and i < len(line):
+            if line[i] == '(':
+                brackets_count += 1
+            elif line[i] == ')':
+                brackets_count -= 1
+            i += 1
+
+        if brackets_count != 0:
+            raise "Error: __eval_brackets: brackets error"
+        i -= 1
+        return MathEval.__equation(line[1:i]), i
+
+    @staticmethod
+    def __equation(line: str) -> float:
         i = 0
         while i < len(line):
             if line[i] == '(':
-                symbl_count = 1
-                j = i + 1
-                while symbl_count != 0:
-                    if line[j] == '(':
-                        symbl_count += 1
-                    elif line[j] == ')':
-                        symbl_count -= 1
-                    j += 1
-                tmp_line = line[i + 1:j - 1]
-                line = line[:i] + '[' + str(MathEval.eval(tmp_line)) + ']' + line[j:]
+                number, j = MathEval.__eval_brackets(line[i:])
+                line = line[:i] + "[" + str(number) + ']' + line[i + j + 1:]
             i += 1
-        return MathEval.eval_part(line)
+        return MathEval.__eval_part(line)
+
+    @staticmethod
+    def eval(line: str) -> float:
+        if len(line) == 0:
+            return 0.
+        line = MathEval.__delete_spaces(line)
+        return MathEval.__equation(line)

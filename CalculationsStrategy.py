@@ -6,7 +6,7 @@ from MathNode import Node
 class CalculationsStrategy(ABC):
 
     @abstractmethod
-    def do(self, node: Node or Value) -> float:
+    def do(self, node: Node | Value) -> float:
         pass
 
 
@@ -18,7 +18,6 @@ class ValueCalculationsStrategy(CalculationsStrategy):
 class SingleCalculationsStrategy(CalculationsStrategy):
     def do(self, node: Node) -> float:
         operation = OperationsList.get(node.value.symbl)
-
         child_rep = CalculationsContext.do_auto_strategy(node.childes[0])
         return operation.func(child_rep)
 
@@ -26,7 +25,6 @@ class SingleCalculationsStrategy(CalculationsStrategy):
 class BaseCalculationsStrategy(CalculationsStrategy):
     def do(self, node: Node) -> float:
         operation = OperationsList.get(node.value.symbl)
-
         left_rep = CalculationsContext.do_auto_strategy(node.childes[0])
         right_rep = CalculationsContext.do_auto_strategy(node.childes[1])
         return operation.func(left_rep, right_rep)

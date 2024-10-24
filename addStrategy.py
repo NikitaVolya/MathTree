@@ -14,8 +14,8 @@ class PriorityStrategy(AddStrategy):
     def do(self, node: Node, operator: BaseOperation or Value, values: []):
         if type(node) is Value:
             raise "Error"
-        newNode = Node(operator, node.childes[-1], values[0])
-        node.childes[-1] = newNode
+        newNode = Node(operator, node.childes[1], values[0])
+        node.childes[1] = newNode
         return node
 
 

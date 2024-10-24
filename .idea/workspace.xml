@@ -4,15 +4,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64f38f2f-e47c-4801-89b0-31f76eb4debc" name="Changes" comment="First commit">
-      <change afterPath="$PROJECT_DIR$/CalculationsStrategy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Concstructions.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/MathEval.py" afterDir="false" />
+    <list default="true" id="64f38f2f-e47c-4801-89b0-31f76eb4debc" name="Changes" comment="Added new file MathEval.py for eval a math string">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CalculationsStrategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/CalculationsStrategy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MathCompound.py" beforeDir="false" afterPath="$PROJECT_DIR$/MathCompound.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MathEval.py" beforeDir="false" afterPath="$PROJECT_DIR$/MathEval.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/MathTypes.py" beforeDir="false" afterPath="$PROJECT_DIR$/MathTypes.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/addStrategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/addStrategy.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/printStrategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/printStrategy.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -99,7 +98,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729615823895</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Added new file MathEval.py for eval a math string">
+      <option name="closed" value="true" />
+      <created>1729712486830</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1729712486830</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -115,6 +122,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="First commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="First commit" />
+    <MESSAGE value="Added new file MathEval.py for eval a math string" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added new file MathEval.py for eval a math string" />
   </component>
 </project>

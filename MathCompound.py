@@ -10,7 +10,6 @@ class MathCompound:
         self.root = Value(0)
 
     def add(self, operator_symbl: str, *args):
-
         operator = OperationsList.get(operator_symbl)
         if operator is None:
             return
