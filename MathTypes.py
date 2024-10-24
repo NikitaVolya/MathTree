@@ -4,8 +4,6 @@ from dataclasses import dataclass
 from enum import Enum
 
 
-
-
 class NodeType(Enum):
     SINGLE = 'single'
     PRIORITY = 'priority'
@@ -38,6 +36,7 @@ DATA = {
         "-": BaseOperation("-", lambda a, b: a - b),
         "*": BaseOperation("*", lambda a, b: a * b, NodeType.PRIORITY),
         "/": BaseOperation("/", lambda a, b: a / b, NodeType.PRIORITY),
+        "^": BaseOperation("^", lambda a, b: a ** b, NodeType.PRIORITY),
         "abs": BaseOperation("abs", lambda a: abs(a), NodeType.SINGLE),
         "sqrt": BaseOperation("sqrt", lambda a: math.sqrt(a), NodeType.SINGLE),
         "sin": BaseOperation("sin", lambda a: math.sin(a), NodeType.SINGLE),
@@ -54,3 +53,9 @@ class OperationsList(Enum):
     @staticmethod
     def get(key: str) -> BaseOperation | None:
         return DATA.get(key)
+
+    @staticmethod
+    def add_function(name: str, func, func_type: str = NodeType.BASE):
+        if name in DATA:
+            raise "Error: add_function: Function exist"
+        DATA[name] = BaseOperation(name, func, func_type)

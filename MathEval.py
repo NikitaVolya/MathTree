@@ -1,5 +1,5 @@
 from MathCompound import MathCompound, Value
-from MathTypes import OperationsList
+from MathTypes import OperationsList, NodeType
 
 
 class MathEval:
@@ -33,7 +33,7 @@ class MathEval:
         return rep
 
     @staticmethod
-    def __getOperator(line: str) -> str | None:
+    def __get_single_operator(line: str):
         i: int = 0
         operation_name: str
         while i < len(line):
@@ -47,20 +47,41 @@ class MathEval:
             operation_name = line
         else:
             operation_name = line[:i]
-
         if operation_name == "":
             return None
-        if not OperationsList.get(operation_name):
-            raise f"Error: __getOperator : operation \"{operation_name}\" not found"
+        operation = OperationsList.get(operation_name)
+        if not operation or operation.state != NodeType.SINGLE:
+            return None
+        return operation_name
+
+    @staticmethod
+    def __get_base_operator(line: str) -> str | None:
+        i: int = 0
+        operation_name: str
+        while i < len(line):
+            if line[i] == '(' or \
+                    line[i] == '.' or \
+                    line[i] == '[' or \
+                    ('0' <= line[i] <= '9'):
+                break
+            i += 1
+        if i == len(line):
+            operation_name = line
+        else:
+            operation_name = line[:i]
+        if operation_name == "":
+            return None
+        operation = OperationsList.get(operation_name)
+        if not operation or operation.state == NodeType.SINGLE:
+            return None
         return operation_name
 
     @staticmethod
     def __eval_part(line: str) -> float:
         compound = MathCompound()
-
         i: int = 0
         while i < len(line):
-            operation = MathEval.__getOperator(line[i:])
+            operation = MathEval.__get_base_operator(line[i:])
             if operation:
                 i += len(operation)
             else:
@@ -71,6 +92,15 @@ class MathEval:
             i += len(number)
             compound.add(operation, Value(float(number)))
         return compound.calculations()
+
+    @staticmethod
+    def __eval_single_operator(operator: str, line: str) -> str:
+        j = len(operator)
+        number = MathEval.__getNumber(line[j:])
+        tmp = MathCompound()
+        tmp.add('+', Value(float(number)))
+        tmp.add(operator)
+        return '[' + str(tmp.calculations()) + line[j + len(number) + 1:]
 
     @staticmethod
     def __eval_brackets(line: str) -> (float, int):
@@ -95,6 +125,15 @@ class MathEval:
             if line[i] == '(':
                 number, j = MathEval.__eval_brackets(line[i:])
                 line = line[:i] + "[" + str(number) + ']' + line[i + j + 1:]
+            i += 1
+
+        i = 0
+        while i < len(line):
+            operator_name = MathEval.__get_single_operator(line[i:])
+            if not operator_name:
+                i += 1
+                continue
+            line = line[:i] + MathEval.__eval_single_operator(operator_name, line[i:])
             i += 1
         return MathEval.__eval_part(line)
 
