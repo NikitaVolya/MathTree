@@ -1,10 +1,9 @@
-from MathEval import MathEval
-from MathTypes import OperationsList, NodeType
+from MathEval import MathText
 
 
 def main():
-    OperationsList.add_function("test", lambda x: x + 10, NodeType.SINGLE)
-    print(MathEval.eval("3.0 * 2 + test(2)"))
+
+    print(MathText.eval(" 10 / 2 - sqrt( 5 + 4 )"))
 
 
 if __name__ == '__main__':
