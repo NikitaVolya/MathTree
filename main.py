@@ -1,9 +1,11 @@
 from MathEval import MathText
+from MathTypes import OperationsList
 
 
 def main():
 
-    print(MathText.eval(" 10 / 2 - sqrt( 5 + 4 )"))
+    OperationsList.add_function("int", lambda x: int(x))
+    print(MathText.eval("fib(58)"))
 
 
 if __name__ == '__main__':

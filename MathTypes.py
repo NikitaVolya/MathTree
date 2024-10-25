@@ -2,6 +2,7 @@ import math
 from typing import Callable
 from dataclasses import dataclass
 from enum import Enum
+from MathFunctions import *
 
 
 class NodeType(Enum):
@@ -46,11 +47,15 @@ DATA = {
     "-": BaseOperation("-", lambda a, b: a - b),
     "*": BaseOperation("*", lambda a, b: a * b, NodeType.PRIORITY),
     "/": BaseOperation("/", lambda a, b: a / b, NodeType.PRIORITY),
+    "//": BaseOperation("//", lambda a, b: a // b, NodeType.PRIORITY),
+    "%": BaseOperation("%", lambda a, b: a % b, NodeType.PRIORITY),
+    "**": BaseOperation("**", lambda a, b: a ** b, NodeType.PRIORITY),
     "^": BaseOperation("^", lambda a, b: a ** b, NodeType.PRIORITY),
     "abs": BaseOperation("abs", lambda a: abs(a), NodeType.SINGLE),
     "sqrt": BaseOperation("sqrt", lambda a: math.sqrt(a), NodeType.SINGLE),
     "sin": BaseOperation("sin", lambda a: math.sin(a), NodeType.SINGLE),
-    "cos": BaseOperation("cos", lambda a: math.cos(a), NodeType.SINGLE)
+    "cos": BaseOperation("cos", lambda a: math.cos(a), NodeType.SINGLE),
+    "fib": BaseOperation("fib", lambda a: fib(a), NodeType.SINGLE)
 }
 
 
