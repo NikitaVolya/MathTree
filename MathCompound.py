@@ -1,6 +1,5 @@
 from MathTypes import OperationsList, NodeType, Value
 from addStrategy import AddContext, SingleStrategy, PriorityStrategy, BaseStrategy, BaseFunctionStrategy
-from printStrategy import PrintContext
 from CalculationsStrategy import CalculationsContext
 
 
@@ -35,11 +34,3 @@ class MathCompound:
     def get_node(self):
         return self.root.clone()
 
-    def print(self):
-
-        if self.root is Value:
-            print(self.root)
-
-        strategy = PrintContext.getStrategy(self.root)
-        strategy.do(self.root)
-        print()

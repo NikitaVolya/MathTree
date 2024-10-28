@@ -4,18 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="64f38f2f-e47c-4801-89b0-31f76eb4debc" name="Changes" comment="Added new file MathFunctions.py with functions">
-      <change afterPath="$PROJECT_DIR$/MathText.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CalculationsStrategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/CalculationsStrategy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Concstructions.py" beforeDir="false" />
+    <list default="true" id="64f38f2f-e47c-4801-89b0-31f76eb4debc" name="Changes" comment="Added new Node type &quot;Function&quot; with multiple arguments">
       <change beforePath="$PROJECT_DIR$/MathCompound.py" beforeDir="false" afterPath="$PROJECT_DIR$/MathCompound.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MathEval.py" beforeDir="false" afterPath="$PROJECT_DIR$/MathEval.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MathFunctions.py" beforeDir="false" afterPath="$PROJECT_DIR$/MathFunctions.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/MathTypes.py" beforeDir="false" afterPath="$PROJECT_DIR$/MathTypes.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/addStrategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/addStrategy.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/printStrategy.py" beforeDir="false" afterPath="$PROJECT_DIR$/printStrategy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/printStrategy.py" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +134,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729877685865</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Added new Node type &quot;Function&quot; with multiple arguments">
+      <option name="closed" value="true" />
+      <created>1730115489855</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1730115489856</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -163,6 +162,7 @@
     <MESSAGE value="Now MathEval eval can work with single type operators" />
     <MESSAGE value="Refactoring" />
     <MESSAGE value="Added new file MathFunctions.py with functions" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added new file MathFunctions.py with functions" />
+    <MESSAGE value="Added new Node type &quot;Function&quot; with multiple arguments" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added new Node type &quot;Function&quot; with multiple arguments" />
   </component>
 </project>
