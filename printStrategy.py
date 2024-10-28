@@ -58,7 +58,7 @@ class PrintContext:
     def getStrategy(node) -> PrintStrategy:
         if type(node) is Value:
             return ValuePrintStrategy()
-        if node.value.state == NodeType.SINGLE:
+        if node.value.state == NodeType.SINGLE_FUNCTION:
             return SinglePrintStrategy()
         if node.value.state == NodeType.PRIORITY:
             return PriorityPrintStrategy()

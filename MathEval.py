@@ -44,9 +44,8 @@ def parceOperator(line: str, *filters) -> str:
 
 class EvalStrategyInterface(ABC):
 
-    @staticmethod
     @abstractmethod
-    def eval_text(line) -> float:
+    def eval_text(self, line) -> float:
         pass
 
 
@@ -54,6 +53,26 @@ class EvalStrategyBrackets(EvalStrategyInterface):
 
     def __init__(self):
         pass
+
+    @staticmethod
+    def __dynamic_split(line: str, symbl: str):
+        assert len(symbl) == 1, "Error symbl"
+        rep = []
+        i = 0
+        j = 0
+        brackets_count = 0
+        while j < len(line):
+            if line[j] == '(':
+                brackets_count += 1
+            elif line[j] == ')':
+                brackets_count -= 1
+
+            if line[j] == symbl and brackets_count == 0:
+                rep.append(line[i:j])
+                i = j + 1
+            j += 1
+        rep.append(line[i:j])
+        return rep
 
     @staticmethod
     def __eval_block(line) -> str:
@@ -66,13 +85,14 @@ class EvalStrategyBrackets(EvalStrategyInterface):
                 brackets_count -= 1
             i += 1
 
-        if brackets_count != 0:
-            raise "Error: __eval_brackets: brackets error"
-        i -= 1
-        return '[' + str(EvalStrategy.eval_text(line[1:i])) + ']' + line[i + 1:]
+        assert brackets_count == 0, "Error: __eval_brackets: brackets error"
+        rep = []
+        for line_part in EvalStrategyBrackets.__dynamic_split(line[1: i - 1], ','):
+            rep.append(str(EvalStrategy().eval_text(line_part)))
 
-    @staticmethod
-    def eval_text(line) -> float:
+        return '[' + ",".join(rep) + ']' + line[i:]
+
+    def eval_text(self, line) -> str:
         i = 0
         while i < len(line):
             if line[i] == '(':
@@ -85,7 +105,7 @@ class EvalStrategySingleOperation(EvalStrategyInterface):
 
     @staticmethod
     def __get_single_operator(line: str):
-        operator_filter = lambda opr: opr.state == NodeType.SINGLE
+        operator_filter = lambda opr: opr.state == NodeType.SINGLE_FUNCTION
         operation_name = parceOperator(line, operator_filter)
         return operation_name
 
@@ -98,8 +118,7 @@ class EvalStrategySingleOperation(EvalStrategyInterface):
         tmp.add(operator)
         return '[' + str(tmp.calculations()) + line[j + len(number) + 1:]
 
-    @staticmethod
-    def eval_text(line) -> float:
+    def eval_text(self, line) -> str:
         i = 0
         while i < len(line):
             operator_name = EvalStrategySingleOperation.__get_single_operator(line[i:])
@@ -120,8 +139,7 @@ class EvalStrategyBaseOperator(EvalStrategyInterface):
         operation_name = parceOperator(line, operator_filter)
         return operation_name
 
-    @staticmethod
-    def eval_text(line) -> float:
+    def eval_text(self, line) -> float:
         compound = MathCompound()
         i: int = 0
         while i < len(line):
@@ -143,33 +161,44 @@ class EvalStrategyBaseOperator(EvalStrategyInterface):
         return compound.calculations()
 
 
-class EvalStrategy(EvalStrategyInterface):
+class EvalBaseFunctionStrategy(EvalStrategyInterface):
+
+    def eval_part(self):
+        pass
 
     @staticmethod
-    def eval_text(line) -> float:
-        line = EvalStrategyBrackets.eval_text(line)
-        line = EvalStrategySingleOperation.eval_text(line)
-        rep = EvalStrategyBaseOperator.eval_text(line)
-        return rep
+    def __get__base_function(line: str) -> str:
+        operator_filter = lambda opr: opr.state == NodeType.BASE_FUNCTION
+        operation_name = parceOperator(line, operator_filter)
+        return operation_name
+
+    @staticmethod
+    def __eval_base_function(operator_name: str, line: str) -> str:
+        j = len(operator_name)
+        arguments = parceNumber(line[j:])
+        values = [Value(float(number)) for number in arguments.split(",")]
+        tmp = MathCompound()
+        tmp.add(operator_name, *values)
+        return '[' + str(tmp.calculations()) + line[j + len(arguments) + 1:]
+
+    def eval_text(self, line) -> float:
+        i = 0
+        while i < len(line):
+            operator_name = EvalBaseFunctionStrategy.__get__base_function(line[i:])
+            if operator_name:
+                line = line[:i] + EvalBaseFunctionStrategy.__eval_base_function(operator_name, line[i:])
+            i += 1
+        return line
 
 
-class MathText:
+class EvalStrategy(EvalStrategyInterface):
 
     def __init__(self):
         pass
 
-    @staticmethod
-    def __delete_spaces(line: str):
-        rep = ""
-        for ch in line:
-            if ch != ' ':
-                rep += ch
-        return rep
-
-    @staticmethod
-    def eval(line: str) -> float:
-        if len(line) == 0:
-            return 0.
-        line = MathText.__delete_spaces(line)
-        rep = EvalStrategy.eval_text(line)
+    def eval_text(self, line) -> float:
+        line = EvalStrategyBrackets().eval_text(line)
+        line = EvalStrategySingleOperation().eval_text(line)
+        line = EvalBaseFunctionStrategy().eval_text(line)
+        rep = EvalStrategyBaseOperator().eval_text(line)
         return rep

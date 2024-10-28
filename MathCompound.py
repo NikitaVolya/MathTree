@@ -1,5 +1,5 @@
 from MathTypes import OperationsList, NodeType, Value
-from addStrategy import AddContext, SingleStrategy, PriorityStrategy, BaseStrategy
+from addStrategy import AddContext, SingleStrategy, PriorityStrategy, BaseStrategy, BaseFunctionStrategy
 from printStrategy import PrintContext
 from CalculationsStrategy import CalculationsContext
 
@@ -15,12 +15,14 @@ class MathCompound:
             return
 
         context = None
-        if operator.state == NodeType.SINGLE:
+        if operator.state == NodeType.SINGLE_FUNCTION:
             context = AddContext(SingleStrategy())
         elif operator.state == NodeType.PRIORITY:
             context = AddContext(PriorityStrategy())
         elif operator.state == NodeType.BASE:
             context = AddContext(BaseStrategy())
+        elif operator.state == NodeType.BASE_FUNCTION:
+            context = AddContext(BaseFunctionStrategy())
 
         self.root = context.do_strategy(self.root, operator, *args)
         return self

@@ -30,11 +30,6 @@ class BaseCalculationsStrategy(CalculationsStrategy):
         return operation.func(left_rep, right_rep)
 
 
-class PriorityCalculationsStrategy(CalculationsStrategy):
-    def do(self, node: Node) -> float:
-        return BaseCalculationsStrategy().do(node)
-
-
 class CalculationsContext:
     def __init__(self, strategy: CalculationsStrategy = None):
         self._strategy: CalculationsStrategy = strategy
@@ -43,11 +38,13 @@ class CalculationsContext:
     def getStrategy(node) -> CalculationsStrategy:
         if type(node) is Value:
             return ValueCalculationsStrategy()
-        if node.value.state == NodeType.SINGLE:
+        if node.value.state == NodeType.SINGLE_FUNCTION:
             return SingleCalculationsStrategy()
         if node.value.state == NodeType.PRIORITY:
-            return PriorityCalculationsStrategy()
+            return BaseCalculationsStrategy()
         if node.value.state == NodeType.BASE:
+            return BaseCalculationsStrategy()
+        if node.value.state == NodeType.BASE_FUNCTION:
             return BaseCalculationsStrategy()
 
     def setStrategy(self, strategy: CalculationsStrategy):

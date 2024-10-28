@@ -35,9 +35,17 @@ class BaseStrategy(AddStrategy):
         return node
 
 
+class BaseFunctionStrategy(AddStrategy):
+
+    def do(self, node: Node, operator: BaseOperation or Value, values):
+        newNode = Node(operator, *values)
+        node = newNode
+        return node
+
+
 class AddContext:
     def __init__(self, strategy: AddStrategy):
         self._strategy = strategy
 
     def do_strategy(self, node: Node, operator: BaseOperation or Value, *args):
-        return self._strategy.do(node, operator, [*args])
+        return self._strategy.do(node, operator, args)
